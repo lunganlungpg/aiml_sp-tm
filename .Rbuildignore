@@ -1,0 +1,14 @@
+^aiml_sp-tm\.Rproj$
+^\.github$
+^docs$
+^config$
+^data$
+^outputs$
+^scripts$
+^README\.md$
+^CONTRIBUTING\.md$
+^AGENTS\.md$
+^renv$
+^renv\.lock$
+^\.Rprofile$
+^CITATION\.cff$

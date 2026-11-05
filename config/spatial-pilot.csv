@@ -1,0 +1,10 @@
+parameter,value
+rows,20
+columns,10
+treatments,20
+replications,10
+pilot_trials_per_scenario,200
+main_trials_per_scenario,500
+confirmation_trials,1000
+resource_ceiling_trials,5000
+seed,2026

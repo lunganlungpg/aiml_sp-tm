@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite the specific release or commit used. No associated research publication is claimed."
+type: software
+title: "AI/ML Guided Spatio-Temporal Agricultural Experimental Design"
+authors:
+  - family-names: "P G"
+    given-names: "Lunganlung"
+version: 0.0.0.9000
+repository-code: "https://github.com/lunganlungpg/aiml_sp-tm"
+license: GPL-3.0-only

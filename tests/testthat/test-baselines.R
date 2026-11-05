@@ -1,0 +1,28 @@
+test_that("primary geometry satisfies ORW replication constraints", {
+  set.seed(2026)
+  x <- generate_blocks()
+  expect_true(validate_layout(x))
+  expect_equal(nrow(x), 200L)
+  expect_equal(as.integer(table(x$treatment)), rep(10L, 20))
+  expect_equal(as.integer(table(x$row)), rep(10L, 20))
+  expect_equal(as.integer(table(x$replicate, x$treatment)), rep(1L, 200))
+  set.seed(2026)
+  expect_identical(x, generate_blocks())
+})
+test_that("validation catches invalid designs", {
+  expect_error(generate_blocks(3, 10))
+  expect_error(generate_blocks(20, NA_real_))
+  x <- generate_blocks(4, 2)
+  x$treatment[1] <- x$treatment[2]
+  expect_error(validate_layout(x), "exactly once")
+  expect_error(validate_layout(x[-1, ]), "rectangular")
+})
+test_that("schedule enumeration enforces coverage", {
+  s <- choose_times(c(0, 2, 5, 9, 12, 20))
+  expect_equal(dim(s), c(8L, 3L))
+  expect_true(all(s[, 1] %in% c(0, 2)))
+  expect_true(all(s[, 2] %in% c(5, 9)))
+  expect_true(all(s[, 3] %in% c(12, 20)))
+  expect_equal(nrow(unique(s)), 8L)
+  expect_error(choose_times(rep(1, 6)))
+})

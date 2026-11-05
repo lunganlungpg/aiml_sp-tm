@@ -1,0 +1,8 @@
+name: aimlsptm-dev
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - r-base=4.5
+  - r-testthat
+  - r-roxygen2

@@ -1,0 +1,14 @@
+Package: aimlsptm
+Title: Tools for Spatio-Temporal Agricultural Experimental Design
+Version: 0.0.0.9000
+Authors@R: person("Lunganlung", "P G", role = c("aut", "cre"), email = "lunganlungpg@gmail.com")
+Description: Research infrastructure and baseline randomization tools for
+    AI/ML guided spatio-temporal agricultural field experiments. Implements
+    resolvable incomplete-block layouts and observation schedule enumeration.
+    Advanced allocation and inference methods remain under development.
+License: GPL-3
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.0

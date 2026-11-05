@@ -1,0 +1,23 @@
+name: Research smoke example
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - name: Install package
+        run: R CMD INSTALL .
+      - name: Generate and validate baseline fieldbook
+        run: Rscript scripts/example.R
+      - uses: actions/upload-artifact@v4
+        with:
+          name: baseline-example
+          path: outputs/
+          if-no-files-found: error
