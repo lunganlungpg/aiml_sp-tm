@@ -6,6 +6,8 @@
 *.tar.gz
 outputs/*
 !outputs/README.md
+!outputs/*.csv
+!outputs/*.txt
 data/raw/*
 !data/raw/README.md
 data/processed/*

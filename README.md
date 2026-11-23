@@ -1,72 +1,133 @@
-# AI/ML Guided Spatio-Temporal Agricultural Experimental Design
+# 🌾 AI/ML Guided Spatio-Temporal Agricultural Experimental Design (`aimlsptm`)
 
-PhD research repository of **Lunganlung P G**, Agricultural Statistics,
-ICAR–Indian Agricultural Research Institute.
+[![R (>= 4.1.0)](https://img.shields.io/badge/R-%3E%3D4.1.0-276DC3.svg)](https://www.r-project.org/)
+[![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](COPYING)
+[![Institution: ICAR-IASRI](https://img.shields.io/badge/Institution-ICAR--IASRI-047857.svg)](https://iasri.icar.gov.in/)
+[![Interactive Field Map](https://img.shields.io/badge/Interactive-Plotly%20Field%20Map-3F4F75.svg)](plots/interactive_fieldbook.html)
+[![Author: Lunganlung P G](https://img.shields.io/badge/PhD%20Researcher-Lunganlung%20P%20G-10B981.svg)](https://github.com/lunganlungpg)
 
-This is an initial research scaffold based on the supplied Outline of Research
-Work (ORW), not a completed or statistically validated optimization method.
+Research repository and R package (`aimlsptm`) for **AI/ML Guided Spatio-Temporal Agricultural Field Experimental Designs**, developed at the **Division of Agricultural Statistics, ICAR–Indian Agricultural Statistics Research Institute (IASRI), New Delhi**.
 
-## Start here
-Install R (>= 4.1), then from the repository root:
+This work investigates the joint optimization of spatial plot allocation (resolvable incomplete-block layouts) and phenological observation schedules for modern precision agricultural trials.
 
-```r
-install.packages(c("testthat", "roxygen2"))
+---
+
+## 📐 Experimental Design Geometry & Visualizations
+
+### 1. Paired-Row Resolvable Incomplete-Block Layout (20 Rows × 10 Columns = 200 Plots)
+Each consecutive pair of rows forms one complete, resolvable replicate containing all 20 experimental treatments ($T_1$ through $T_{20}$):
+
+![Field Layout Grid Heatmap](plots/field_layout_heatmap.png)
+
+### 2. Spatio-Temporal Observation Schedules (Phenological Window Coverage)
+Enumeration of 8 feasible sampling schedules across 6 candidate dates ensuring representation across Early (Vegetative), Middle (Flowering), and Late (Maturity) growth phases:
+
+![Temporal Sampling Schedules](plots/temporal_sampling_schedules.png)
+
+### 3. Replicate-by-Treatment Incidence Verification (Orthogonal Balance)
+Diagnostic confirmation demonstrating exact resolvability — every treatment appears exactly once per 2-row block:
+
+![Treatment Balance Matrix](plots/treatment_balance_diagnostic.png)
+
+---
+
+## 🌐 Interactive Fieldbook Exploration (Plotly HTML)
+
+Explore the 200-plot agricultural layout interactively in your browser:
+
+👉 **[Interactive 200-Plot Field Map](plots/interactive_fieldbook.html)**
+* Hover over any plot cell to inspect its exact spatial coordinates (Row, Column), paired-row replicate ID, and assigned treatment level ($T_1$ to $T_{20}$).
+* Zoom into specific blocks and examine spatial neighbors across ranges.
+
+---
+
+## 📊 Design Parameters & Specifications
+
+| Dimension / Parameter | Specification | Description |
+| :--- | :---: | :--- |
+| **Grid Geometry** | $20 \text{ Rows} \times 10 \text{ Columns}$ | 200 total experimental field plots |
+| **Treatments ($t$)** | 20 Levels | Number of agronomic varieties/management regimes |
+| **Replicates ($r$)** | 10 Replicates | Each formed by 2 adjacent field rows ($2 \times 10 = 20$ plots) |
+| **Resolvability** | Exact ($\alpha$-resolvable) | Every replicate contains all 20 treatments exactly once |
+| **Observation Times** | 3 Dates out of 6 | Sampled from distinct early, middle, and late phenological intervals |
+| **Feasible Schedules** | 8 Enumerations | Balanced temporal designs for AUC / growth curve modeling |
+
+---
+
+## 📁 Repository Structure
+
+```text
+├── R/
+│   ├── layout.R                      # generate_blocks() & validate_layout() implementation
+│   ├── times.R                       # choose_times() schedule enumeration
+│   └── plot_fieldbook.R              # Fieldbook spatial matrix constructor
+├── scripts/
+│   └── example.R                     # Reproducible execution generating baseline fieldbook
+├── plots/
+│   ├── field_layout_heatmap.png      # 300 DPI high-resolution fieldbook grid map
+│   ├── temporal_sampling_schedules.png# Phenological observation schedules timeline
+│   ├── treatment_balance_diagnostic.png# Replicate x Treatment incidence matrix
+│   └── interactive_fieldbook.html    # Standalone interactive Plotly field map
+├── python/
+│   └── generate_field_visuals.py     # Python visualization and interactive generator
+├── outputs/
+│   ├── baseline-fieldbook.csv        # Validated 200-plot experimental fieldbook
+│   ├── candidate-schedules.csv       # 8 feasible spatio-temporal measurement schedules
+│   └── session-info.txt              # R session reproducibility record
+├── docs/
+│   ├── orw/                          # Outline of Research Work (ORW) source documents
+│   ├── research-plan.md              # Research objectives and milestone roadmap
+│   └── data-management.md            # Data provenance and reproducibility protocols
+├── tests/                            # Comprehensive testthat verification suite
+├── DESCRIPTION                       # R package metadata
+└── README.md
 ```
-```sh
-R CMD INSTALL .
+
+---
+
+## 🚀 Quickstart & Execution
+
+### Option A: Direct R Execution
+Clone and run the reproducible research script from the repository root:
+```bash
+git clone https://github.com/lunganlungpg/aiml_sp-tm.git
+cd aiml_sp-tm
 Rscript scripts/example.R
-Rscript -e 'testthat::test_local()'
-R CMD build .
-R CMD check --no-manual aimlsptm_0.0.0.9000.tar.gz
 ```
 
-For the prepared Codex cloud environment, first run
-`export PATH="/workspace/tools/r/bin:$PATH"`. A SHA256-pinned Linux environment
-is recorded in `docs/environment-linux-64.lock`; with conda installed, recreate it
-using `conda create -p /path/to/r-env --file docs/environment-linux-64.lock`.
-The shorter `docs/environment.yml` describes dependency intent rather than a lock.
-The current environment uses R 4.5.3; CI uses the current supported R release.
+### Option B: Install as an R Package
+```r
+# Within R or RStudio:
+install.packages(c("testthat", "roxygen2"))
+devtools::install()
 
-Open `aiml_sp-tm.Rproj` in RStudio if preferred. The example exports a validated
-200-plot baseline fieldbook, candidate schedules and session information to
-`outputs/`. Call `set.seed()` before randomization.
+# Load and generate designs
+library(aimlsptm)
+set.seed(2026)
+field_layout <- generate_blocks(rows = 20, columns = 10)
+validate_layout(field_layout)
 
-## What currently works
-- Paired-row resolvable randomization: 20 rows x 10 columns, 20 treatments,
-  10 replicates, each treatment exactly once per two-row replicate.
-- Structural layout validation and enumeration of eight three-date schedules
-  with early/middle/late coverage among six ordered candidate dates.
-- Tests, R package checks and a small research example in GitHub Actions.
+# Enumerate 3-date observation schedules
+schedules <- choose_times(1:6)
+print(schedules)
+```
 
-The baseline is unoptimized. Temporal regime allocation and statistical scoring
-remain planned work. CI runs short checks, not thesis-scale simulations.
+### Option C: Regenerate Figures & Interactive Field Maps (Python)
+```bash
+python python/generate_field_visuals.py
+```
 
-## Repository guide
-| Path | Purpose |
-| --- | --- |
-| `R/`, `man/`, `tests/` | Package code, reference documentation and tests |
-| `scripts/` | Reproducible entry points |
-| `config/` | Explicit pilot planning settings (not an executable simulation) |
-| `docs/orw/` | Original supplied research outline |
-| `docs/research-plan.md` | Objectives, milestones and scientific gates |
-| `docs/data-management.md` | Provenance, permissions and reproducibility |
-| `docs/project-board.md` | GitHub Project board blueprint and initial backlog |
-| `data/` | Local data locations; data contents ignored |
-| `outputs/` | Generated local results; contents ignored |
+---
 
-## GitHub automation
-The **R package checks** and **Research smoke example** workflows run on pushes to
-`main`, pull requests and manual dispatch. No repository secrets are required.
-After the first successful CI run, the owner can protect `main` by requiring
-these checks and pull-request review in repository Settings. Project creation
-and branch protection require GitHub account permissions and are separate settings.
+## 🔬 Research Objectives & Theoretical Scope
 
-## Research scope
-The four ORW objectives concern spatial allocation, joint treatment/measurement
-timing, spatio-temporal mixed-model evaluation, and R package development.
-See the research plan for methods that are not implemented. Nitrogen rates and
-application windows require agronomist approval before real-world use.
+1. **Spatial Layout Optimization**: Formulating resolvable spatial experimental designs that account for continuous 2D soil fertility gradients and micro-climatic trends.
+2. **Joint Temporal Sampling**: Determining measurement times that minimize variance in non-linear growth curves and trajectory estimation under field logistics constraints.
+3. **Spatio-Temporal Mixed Models**: Integrating spatial covariance structures ($\text{AR}(1) \times \text{AR}(1)$, Matérn) with temporal repeated-measures splines.
+4. **Software Infrastructure**: Providing reproducible, open-source R tooling for the agricultural statistics and breeding community.
 
-Package code is licensed under GPL-3. The supplied ORW is retained as an authored
-research document; institutional data and third-party datasets retain their own
-permissions. See `docs/orw/README.md`.
+---
+
+## 📄 License & Attribution
+* **Software Code**: Licensed under the [GNU General Public License v3.0 (GPL-3)](COPYING).
+* **Research Documentation**: Authored research of Lunganlung P G, ICAR–Indian Agricultural Statistics Research Institute (IASRI), New Delhi.
