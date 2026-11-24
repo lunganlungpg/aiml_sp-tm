@@ -12,3 +12,7 @@
 ^renv\.lock$
 ^\.Rprofile$
 ^CITATION\.cff$
+^python$
+^plots$
+^Dockerfile$
+^\.dockerignore$

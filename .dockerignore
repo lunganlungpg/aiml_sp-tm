@@ -1,0 +1,8 @@
+# Source, tests and the example script are needed; docs, plots and git data are not.
+.git
+.github
+docs
+plots
+python
+*.Rcheck
+*.tar.gz

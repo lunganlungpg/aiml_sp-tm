@@ -97,9 +97,11 @@ Rscript scripts/example.R
 
 ### Option B: Install as an R Package
 ```r
-# Within R or RStudio:
-install.packages(c("testthat", "roxygen2"))
-devtools::install()
+# Straight from GitHub (no clone needed):
+install.packages("remotes")
+remotes::install_github("lunganlungpg/aiml_sp-tm")
+
+# ...or from a local clone:  devtools::install()
 
 # Load and generate designs
 library(aimlsptm)
@@ -110,6 +112,16 @@ validate_layout(field_layout)
 # Enumerate 3-date observation schedules
 schedules <- choose_times(1:6)
 print(schedules)
+```
+
+### Option B2: Docker Image (GitHub Packages)
+A ready-to-run image with R and `aimlsptm` preinstalled is published to
+[GitHub Packages](https://github.com/lunganlungpg/aiml_sp-tm/pkgs/container/aiml_sp-tm)
+by [`.github/workflows/publish-packages.yml`](.github/workflows/publish-packages.yml):
+```bash
+docker run --rm ghcr.io/lunganlungpg/aiml_sp-tm                       # runs scripts/example.R
+docker run --rm -v "$PWD/outputs:/opt/aiml_sp-tm/outputs" ghcr.io/lunganlungpg/aiml_sp-tm   # keep the fieldbook CSVs
+docker run --rm -it ghcr.io/lunganlungpg/aiml_sp-tm R                 # interactive R session
 ```
 
 ### Option C: Regenerate Figures & Interactive Field Maps (Python)
