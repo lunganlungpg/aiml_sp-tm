@@ -2,4 +2,5 @@
 
 export(choose_times)
 export(generate_blocks)
+export(plot_fieldbook)
 export(validate_layout)
